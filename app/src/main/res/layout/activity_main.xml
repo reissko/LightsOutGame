@@ -19,12 +19,28 @@
         android:rowCount="5"
         android:layout_gravity="center"
         android:padding="16dp">
+
     </GridLayout>
 
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reset Puzzle"
-        android:onClick="resetPuzzle"/>
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="resetPuzzle"
+            android:text="Reset Puzzle" />
+
+        <TextView
+            android:id="@+id/winMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="30sp" />
+    </LinearLayout>
+
 </LinearLayout>

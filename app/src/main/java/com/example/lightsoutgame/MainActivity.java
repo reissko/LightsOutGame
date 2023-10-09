@@ -1,10 +1,14 @@
 package com.example.lightsoutgame;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
 
@@ -17,16 +21,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int GRID_SIZE = 5;
     private GridLayout gridLayout;
+    private TextView winMessage;
     private Button[][] buttons;
     private boolean[][] lights;
     private Random random = new Random();
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         gridLayout = findViewById(R.id.gridLayout);
+        winMessage = findViewById(R.id.winMessage);
         buttons = new Button[GRID_SIZE][GRID_SIZE];
         lights = new boolean[GRID_SIZE][GRID_SIZE];
 
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        resetPuzzle((View)gridLayout);
+        resetPuzzle((View)gridLayout); //call reset method with type casted input of gridLayout
     }
 
     private void toggleLights(int row, int col) {
@@ -74,11 +81,15 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI() {
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
-                buttons[i][j].setBackgroundColor(lights[i][j] ? Color.BLACK : Color.WHITE);
+                buttons[i][j].setBackgroundColor(lights[i][j] ? Color.BLACK : Color.GRAY);
             }
         }
     }
 
+    /**
+     * checks through each value in the lights double array. If all
+     * values are false method returns true
+     */
     private void checkWin() {
         boolean win = true;
         for (int i = 0; i < GRID_SIZE; i++) {
@@ -90,11 +101,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (win) {
-            // You can add a win message or other indication here.
+            Log.i("Win Message", "You Win!");
+            winMessage.setText("You Win!");
+            winMessage.setBackgroundColor(Color.GREEN);
         }
     }
 
     public void resetPuzzle(View view) {
+        winMessage.setText("");
+        winMessage.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 lights[i][j] = random.nextBoolean();
